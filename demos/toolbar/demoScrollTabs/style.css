@@ -1,0 +1,28 @@
+[md-toolbar-expanded] {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  z-index: 0; }
+
+[md-scroll-fade] * {
+  z-index: 1; }
+
+[md-toolbar-fab] {
+  position: absolute;
+  right: 16px;
+  bottom: -32px;
+  z-index: 20; }
+
+[md-toolbar-fab].hide {
+  -webkit-transform: scale(0, 0);
+          transform: scale(0, 0);
+  transition: -webkit-transform .1s ease-out;
+  transition: transform .1s ease-out; }
+
+[md-toolbar-fab].show {
+  -webkit-transform: scale(1, 1);
+          transform: scale(1, 1);
+  transition: -webkit-transform .1s ease-out;
+  transition: transform .1s ease-out; }
