@@ -2807,8 +2807,9 @@ md-autocomplete {
 md-backdrop {
   z-index: 50;
   background-color: transparent;
-  position: fixed;
+  position: absolute;
   height: 100%;
+  bottom: 0;
   left: 0;
   right: 0; }
   md-backdrop.md-menu-backdrop {
@@ -2828,8 +2829,10 @@ md-backdrop {
     -webkit-animation: cubic-bezier(0.25, 0.8, 0.25, 1) mdBackdropFadeIn 0.5s both;
             animation: cubic-bezier(0.25, 0.8, 0.25, 1) mdBackdropFadeIn 0.5s both; }
   md-backdrop.ng-leave {
-    -webkit-animation: cubic-bezier(0.55, 0, 0.55, 0.2) mdBackdropFadeOut 0.2s both;
-            animation: cubic-bezier(0.55, 0, 0.55, 0.2) mdBackdropFadeOut 0.2s both; }
+    -webkit-animation: cubic-bezier(0.55, 0, 0.55, 0.2) mdBackdropFadeOut 0.4s both;
+            animation: cubic-bezier(0.55, 0, 0.55, 0.2) mdBackdropFadeOut 0.4s both; }
+  md-backdrop.md-opaque {
+    background-color: rgba(0, 0, 0, 0.42); }
 
 @-webkit-keyframes mdBackdropFadeIn {
   from {
@@ -3509,6 +3512,7 @@ md-dialog {
     -webkit-transform: translate3d(0, 0, 0) scale(1);
             transform: translate3d(0, 0, 0) scale(1); }
   md-dialog.md-transition-out {
+    opacity: 0;
     transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
     -webkit-transform: translate3d(0, 100%, 0) scale(0.2);
             transform: translate3d(0, 100%, 0) scale(0.2); }
@@ -6231,16 +6235,16 @@ md-optgroup {
 md-sidenav {
   box-sizing: border-box;
   position: absolute;
+  -webkit-flex-direction: column;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  z-index: 60;
   width: 304px;
   min-width: 304px;
   max-width: 304px;
   bottom: 0;
-  z-index: 60;
   background-color: white;
-  overflow: auto;
-  -webkit-flex-direction: column;
-      -ms-flex-direction: column;
-          flex-direction: column; }
+  overflow: auto; }
   md-sidenav *, md-sidenav *:before, md-sidenav *:after {
     box-sizing: border-box; }
   md-sidenav ul {
@@ -7099,7 +7103,7 @@ md-toast {
   md-toast {
     border: 1px solid #fff; } }
 
-md-toolbar, md-scroll-toolbar {
+md-toolbar {
   box-sizing: border-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -7112,49 +7116,53 @@ md-toolbar, md-scroll-toolbar {
   font-size: 20px;
   min-height: 64px;
   width: 100%; }
-  md-toolbar.md-whiteframe-z1-add, md-toolbar.md-whiteframe-z1-remove, md-scroll-toolbar.md-whiteframe-z1-add, md-scroll-toolbar.md-whiteframe-z1-remove {
+  md-toolbar.md-whiteframe-z1-add, md-toolbar.md-whiteframe-z1-remove {
     transition: box-shadow 0.5s linear; }
-  md-toolbar *, md-toolbar *:before, md-toolbar *:after, md-scroll-toolbar *, md-scroll-toolbar *:before, md-scroll-toolbar *:after {
+  md-toolbar *, md-toolbar *:before, md-toolbar *:after {
     box-sizing: border-box; }
-  md-toolbar.md-tall, md-scroll-toolbar.md-tall {
+  md-toolbar.md-tall {
     height: 128px;
     min-height: 128px;
     max-height: 128px; }
-  md-toolbar.md-medium-tall, md-scroll-toolbar.md-medium-tall {
+  md-toolbar.md-medium-tall {
     height: 88px;
     min-height: 88px;
     max-height: 88px; }
-    md-toolbar.md-medium-tall .md-toolbar-tools, md-scroll-toolbar.md-medium-tall .md-toolbar-tools {
+    md-toolbar.md-medium-tall .md-toolbar-tools {
       height: 48px;
       min-height: 48px;
       max-height: 48px; }
-  md-toolbar .md-indent, md-scroll-toolbar .md-indent {
+  md-toolbar .md-indent {
     margin-left: 64px; }
-  md-toolbar [md-toolbar-expanded], md-scroll-toolbar [md-toolbar-expanded] {
+  md-toolbar[md-scroll-fade] {
+    min-height: 180px;
+    max-height: 180px; }
+  md-toolbar [md-toolbar-expanded] {
+    background-size: 100%;
     position: absolute;
     left: 0;
     right: 0;
     top: 0;
     bottom: 0;
     z-index: 0; }
-  md-toolbar [md-toolbar-fab], md-scroll-toolbar [md-toolbar-fab] {
+  md-toolbar [md-toolbar-fab] {
     position: absolute;
     right: 16px;
     bottom: -32px;
     z-index: 20; }
-  md-toolbar [md-toolbar-fab].hide, md-scroll-toolbar [md-toolbar-fab].hide {
+  md-toolbar [md-toolbar-fab].hide {
     -webkit-transform: scale(0, 0);
             transform: scale(0, 0);
     transition: -webkit-transform .1s ease-out;
     transition: transform .1s ease-out; }
-  md-toolbar [md-toolbar-fab].show, md-scroll-toolbar [md-toolbar-fab].show {
+  md-toolbar [md-toolbar-fab].show {
     -webkit-transform: scale(1, 1);
             transform: scale(1, 1);
     transition: -webkit-transform .1s ease-out;
     transition: transform .1s ease-out; }
-  md-toolbar ~ md-content > md-list, md-scroll-toolbar ~ md-content > md-list {
+  md-toolbar ~ md-content > md-list {
     padding: 0; }
-    md-toolbar ~ md-content > md-list md-list-item:last-child md-divider, md-scroll-toolbar ~ md-content > md-list md-list-item:last-child md-divider {
+    md-toolbar ~ md-content > md-list md-list-item:last-child md-divider {
       display: none; }
 
 .md-toolbar-tools {
