@@ -754,6 +754,10 @@ angular.module('dividerDemo1', ['ngMaterial'])
     });
 })();
 
+angular.module('gridListDemo1', ['ngMaterial'])
+.controller('AppCtrl', function($scope) {});
+
+
 angular
   .module('gridListDemoApp', ['ngMaterial'])
   .controller('gridListDemoCtrl', function($scope) {
@@ -808,10 +812,6 @@ angular
   .config( function( $mdIconProvider ){
     $mdIconProvider.iconSet("avatar", 'icons/avatar-icons.svg', 128);
   });
-
-
-angular.module('gridListDemo1', ['ngMaterial'])
-.controller('AppCtrl', function($scope) {});
 
 
 angular.module('gridListDemo1', ['ngMaterial'])
@@ -907,15 +907,6 @@ angular
   });
 
 
-angular.module('appSvgIconSets', ['ngMaterial'])
-  .controller('DemoCtrl', function($scope) {})
-  .config(function($mdIconProvider) {
-    $mdIconProvider
-      .iconSet('social', 'img/icons/sets/social-icons.svg', 24)
-      .defaultIconSet('img/icons/sets/core-icons.svg', 24);
-  });
-
-
 angular.module('appDemoSvgIcons', ['ngMaterial'])
 .controller('DemoCtrl', function( $scope ) {
 
@@ -924,6 +915,15 @@ angular.module('appDemoSvgIcons', ['ngMaterial'])
       return 'img/icons/android.svg';
     }
 });
+
+
+angular.module('appSvgIconSets', ['ngMaterial'])
+  .controller('DemoCtrl', function($scope) {})
+  .config(function($mdIconProvider) {
+    $mdIconProvider
+      .iconSet('social', 'img/icons/sets/social-icons.svg', 24)
+      .defaultIconSet('img/icons/sets/core-icons.svg', 24);
+  });
 
 
 angular.module('appUsingTemplateCache', ['ngMaterial'])
@@ -1512,6 +1512,17 @@ angular.module('subheaderBasicDemo', ['ngMaterial'])
     ];
 });
 
+angular.module('demoSwipe', ['ngMaterial'])
+  .controller('demoSwipeCtrl', function($scope) {
+    $scope.onSwipeLeft = function(ev) {
+      alert('You swiped left!!');
+    };
+
+    $scope.onSwipeRight = function(ev) {
+      alert('You swiped right!!');
+    };
+  });
+
 angular.module('switchDemo1', ['ngMaterial'])
 .controller('SwitchDemoCtrl', function($scope) {
   $scope.data = {
@@ -1524,17 +1535,6 @@ angular.module('switchDemo1', ['ngMaterial'])
   	$scope.message = "The switch is now: " + cbState;
   };
 });
-
-angular.module('demoSwipe', ['ngMaterial'])
-  .controller('demoSwipeCtrl', function($scope) {
-    $scope.onSwipeLeft = function(ev) {
-      alert('You swiped left!!');
-    };
-
-    $scope.onSwipeRight = function(ev) {
-      alert('You swiped right!!');
-    };
-  });
 
 (function () {
   'use strict';
