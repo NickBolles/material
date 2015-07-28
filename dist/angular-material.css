@@ -2,7 +2,7 @@
  * Angular Material Design
  * https://github.com/angular/material
  * @license MIT
- * v0.10.1-rc1
+ * v0.10.1-rc4
  */
 /* mixin definition ; sets LTR and RTL within the same style call */
 html, body {
@@ -2806,9 +2806,10 @@ md-autocomplete {
 
 md-backdrop {
   z-index: 50;
-  background-color: transparent;
+  opacity: 1;
+  transition: background-color 450ms cubic-bezier(0.55, 0, 0.55, 0.2);
   position: absolute;
-  height: 100%;
+  top: 0;
   bottom: 0;
   left: 0;
   right: 0; }
@@ -2823,44 +2824,9 @@ md-backdrop {
   md-backdrop.md-sidenav-backdrop {
     z-index: 59; }
   md-backdrop.md-click-catcher {
-    top: 0;
-    position: fixed; }
-  md-backdrop.ng-enter {
-    -webkit-animation: cubic-bezier(0.25, 0.8, 0.25, 1) mdBackdropFadeIn 0.5s both;
-            animation: cubic-bezier(0.25, 0.8, 0.25, 1) mdBackdropFadeIn 0.5s both; }
-  md-backdrop.ng-leave {
-    -webkit-animation: cubic-bezier(0.55, 0, 0.55, 0.2) mdBackdropFadeOut 0.4s both;
-            animation: cubic-bezier(0.55, 0, 0.55, 0.2) mdBackdropFadeOut 0.4s both; }
-  md-backdrop.md-opaque {
-    background-color: rgba(0, 0, 0, 0.42); }
-
-@-webkit-keyframes mdBackdropFadeIn {
-  from {
-    opacity: 0; }
-
-  to {
-    opacity: 1; } }
-
-@keyframes mdBackdropFadeIn {
-  from {
-    opacity: 0; }
-
-  to {
-    opacity: 1; } }
-
-@-webkit-keyframes mdBackdropFadeOut {
-  from {
-    opacity: 1; }
-
-  to {
-    opacity: 0; } }
-
-@keyframes mdBackdropFadeOut {
-  from {
-    opacity: 1; }
-
-  to {
-    opacity: 0; } }
+    position: absolute; }
+  md-backdrop.md-opaque.ng-leave {
+    transition: background-color 400ms linear; }
 
 md-bottom-sheet {
   position: absolute;
@@ -3381,12 +3347,17 @@ md-checkbox {
     line-height: 32px;
     margin: 8px 8px 0 0;
     padding: 0 8px 0 12px;
-    float: left; }
+    float: left;
+    box-sizing: border-box;
+    max-width: 100%; }
     .md-chips .md-chip .md-chip-content {
       display: block;
       padding-right: 4px;
       float: left;
-      white-space: nowrap; }
+      white-space: nowrap;
+      max-width: 100%;
+      overflow: hidden;
+      text-overflow: ellipsis; }
       .md-chips .md-chip .md-chip-content:focus {
         outline: none; }
     .md-chips .md-chip .md-chip-remove-container {
@@ -3485,12 +3456,13 @@ md-content {
   -webkit-align-items: center;
       -ms-flex-align: center;
           align-items: center;
-  position: fixed;
+  position: absolute;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  z-index: 80; }
+  z-index: 80;
+  overflow: hidden; }
 
 md-dialog {
   opacity: 0;
@@ -4203,6 +4175,7 @@ md-menu-item {
   -webkit-flex-direction: row;
       -ms-flex-direction: row;
           flex-direction: row;
+  min-height: 48px;
   height: 48px;
   -webkit-align-content: center;
       -ms-flex-line-pack: center;
@@ -7137,14 +7110,29 @@ md-toolbar {
   md-toolbar[md-scroll-fade] {
     min-height: 180px;
     max-height: 180px; }
-  md-toolbar [md-toolbar-expanded] {
+  md-toolbar [md-expanded-container] {
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    overflow: hidden; }
+  md-toolbar [md-expanded] {
     background-size: 100%;
     position: absolute;
     left: 0;
     right: 0;
     top: 0;
     bottom: 0;
-    z-index: 0; }
+    z-index: 0;
+    overflow: hidden; }
+    md-toolbar [md-expanded] .image {
+      position: relative;
+      width: 100%;
+      height: 0;
+      /* Simple trick to keep a 16:9 ratio on your background image (height=0;padding-bottom=56.25%) */
+      padding-bottom: 56.25%;
+      background-size: 160%;
+      /* You can override this value if your picture has a weird ratio */
+      background-position: 50% 50%; }
   md-toolbar [md-toolbar-fab] {
     position: absolute;
     right: 16px;
@@ -7164,6 +7152,9 @@ md-toolbar {
     padding: 0; }
     md-toolbar ~ md-content > md-list md-list-item:last-child md-divider {
       display: none; }
+  md-toolbar ~ md-content.md-offset {
+    background: transparent;
+    z-index: 3; }
 
 .md-toolbar-tools {
   font-size: 20px;
@@ -7318,7 +7309,8 @@ md-tooltip {
   overflow-y: hidden; }
 .md-virtual-repeat-container.md-orient-horizontal .md-virtual-repeat-offsetter {
   bottom: 16px;
-  right: auto; }
+  right: auto;
+  white-space: nowrap; }
 
 .md-whiteframe-z1 {
   box-shadow: 0px 3px 1px -2px rgba(0, 0, 0, 0.14), 0px 2px 2px 0px rgba(0, 0, 0, 0.098), 0px 1px 5px 0px rgba(0, 0, 0, 0.084); }

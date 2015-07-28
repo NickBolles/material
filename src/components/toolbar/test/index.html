@@ -1,49 +1,15 @@
-<!doctype html>
-<html ng-app="toolbarDemo3">
-<head>
-    <title>demoScrollFade</title>
-    <meta name="viewport" content="initial-scale=1, maximum-scale=1" />
-
-    <script src="/node_modules/angular/angular.js"></script>
-    <script src="/node_modules/angular-animate/angular-animate.js"></script>
-    <script src="/node_modules/angular-aria/angular-aria.js"></script>
-    <script src="/node_modules/angular-messages/angular-messages.js"></script>
-    <script src="/dist/angular-material.js"></script>
-
-    <link rel="stylesheet" href="/dist/angular-material.css">
-
-    
-    <script src="script.js"></script>
-    
-    
-    <link rel="stylesheet" href="style.css">
-    
-</head>
-
-<body>
 <div ng-controller="AppCtrl" layout="column" layout-fill style="position: absolute;left:0;right:0;top:0;bottom:0;">
     <!--Use absolute position on the demo controller to simulate a body tag-->
 
-  <md-toolbar md-scroll-fade
-              layout class="md-tall"
-              md-keep-condensed="64"
-              md-title-scale-factor="1.5"
-              md-shrink-speed-factor=".5"
-              md-expanded-speed-factor=".2">
-    <div md-expanded-container>
-      <div md-expanded  md-expanded-keep="60" >
-          <div style="background-image:url(http://lusakavoice.com/wp-content/uploads/2015/04/New-Yorks-iconic-Statue-of-Liberty-.jpg)" class="image"></div>
-      </div>
-
-        <!--<img src="https://upload.wikimedia.org/wikipedia/commons/d/de/0327New_York_City_Statue_of_Liberty.JPG">-->
-    </div>
+  <md-toolbar md-scroll-fade md-keep-condensed layout class="md-tall" md-title-scale-factor="1.5" md-shrink-speed-factor=".5" md-expanded-speed-factor=".5">
+    <div md-expanded style="background-image:url(https://upload.wikimedia.org/wikipedia/commons/d/de/0327New_York_City_Statue_of_Liberty.JPG)"></div>
     <div class="md-toolbar-tools">
         <md-button class="md-icon-button" aria-label="Settings">
             <md-icon md-svg-icon="img/icons/menu.svg"></md-icon>
         </md-button>
         <h3 md-toolbar-title>Scroll Fade</h3>
         <span flex></span>
-        <md-button class="md-icon-button" aria-label="Favorite" ng-if="toolbarCondensed">
+        <md-button class="md-icon-button" aria-label="Favorite">
             <md-icon md-svg-icon="img/icons/favorite.svg" style="color: greenyellow;"></md-icon>
         </md-button>
         <md-button class="md-icon-button" aria-label="More">

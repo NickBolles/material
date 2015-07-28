@@ -2,7 +2,7 @@
  * Angular Material Design
  * https://github.com/angular/material
  * @license MIT
- * v0.10.1-rc1
+ * v0.10.1-rc4
  */
 (function( window, angular, undefined ){
 "use strict";
@@ -31,6 +31,48 @@ angular.module('material.components.toolbar', [
  * You can change the height of the toolbar by adding either the
  * `md-medium-tall` or `md-tall` class to the toolbar.
  *
+ * ### Scroll-Fade Toolbar
+ *
+ * The `md-scroll-fade` attribute can be included on the `md-toolbar` to create a smooth fade effect.
+ * This is most often used with a picture that fades to a solid color while the user scrolls
+ * down the page. When using the `md-scroll-fade` attribute the toolbar can contain an element with
+ * the `md-expanded` attribute. This element will fill the height of the toolbar and have the attribute
+ * `md-fade-out` added to it (see below). By default the overflow content of the `md-expanded` element
+ * will be visible outside of the toolbar. This can be avoided by wrapping the `md-expanded` element
+ * in an element with the attribute `md-expanded-container`. An element with the class `.image` can
+ * be included inside of the `md-expanded` element with a background image that will fill the toolbar
+ * when it is expanded.
+ *
+ * An element with the class `md-toolbar-tools` can be used to show action buttons on the toolbar.
+ * The `md-toolbar-tools` will be fixed at the top of the toolbar unless the toolbar scrolls more then
+ * the height of the tools, then the tools will scroll with the toolbar.
+ *
+ * The toolbar can also contain an element with the attribute `md-toolbar-title`. This element will be
+ * placed at the bottom of the toolbar and scroll up with the toolbar, resting in the default location.
+ * The `md-toolbar-title` will also be scaled while the user scrolls. The default scale is 1.5, but can
+ * be modified with the `md-title-scale` attribute.
+ *
+ * The scroll-fade toolbar will scroll up until the toolbar is 64px high, then it will be fixed at the
+ * top of the parent container. This can be modified via the `md-keep-condensed` attribute, where the
+ * value of the attribute is the amount of pixels to keep of the toolbar.
+ *
+ * Much like the `md-keep-condensed` the `md-expanded-keep` attribute on the element with the attribute
+ * `md-expanded` will keep the expanded background at the specified pixels.
+ *
+ * When using the `md-scroll-fade` attribute any element in the toolbar can be faded in or out
+ * by adding the `md-fade-in` or `md-fade-out` directives. The `md-no-fade` attribute can be used
+ * to counteract the `md-fade-in` or `md-fade-out` actions. The `md-fade-out` attribute is added to the
+ * `md-expanded` element by default. In order to counteract this add the `md-no-fade` attribute to the
+ * element.
+ *
+ * To achieve an overlapping of the content and the toolbar add the `md-content-offset` to the toolbar,
+ * where the value is the amount, in pixels, to overlap the content onto the toolbar.
+ *
+ *
+ * A toolbar with the `md-shrink` or `md-scroll-fade` attributes will emit the event `$mdToolbarCondensed`
+ * when it reaches the minimum height and `$mdToolbarExpanded` when it grows bigger than the Minimum height.
+ * This can be used, for example, to show a button only when the toolbar is condensed by listening to the
+ * event and setting a scope variable.
  * @usage
  * <hljs lang="html">
  * <div layout="column" layout-fill>
@@ -66,14 +108,22 @@ angular.module('material.components.toolbar', [
  *
  * @param {boolean=} md-scroll-fade Whether the header should fade from a picture/backdrop
  * to the toolbar as the user scrolls down. The toolbar must be a sibling of `md-content` and
- * contain an element with the attribute `md-toolbar-expanded`, which will be the backdrop
- * when fully down. Optionally the toolbar can contain a `md-fab` with the attribute
- * `md-toolbar-fab` and a title with the attribute `md-toolbar-title` to animate from the bottom
- * of the toolbar to the normal toolbar position.
- * Note: Use this in conjunction with md-keep-condensed to keep the header when scrolling down.
- * Note: Use a container with the class `.md-toolbar-tools`
+ * contain an element with the attribute `md-expanded`, which will be the backdrop
+ * when scrolled all the way to the top. To restrict the content of the expanded element to the
+ * toolbar wrap the `md-expanded` in an element with the attribute `md-expanded-container`.
+ * Optionally the toolbar can contain a `md-fab` with the attribute `md-toolbar-fab` and a
+ * title with the attribute `md-toolbar-title` to animate from the bottom of the toolbar to
+ * the normal toolbar position.
+ * Note: Use this in conjunction with md-keep-condensed to keep the header at a certain height
+ * when scrolling down.
+ * Note: Use a container with the class `.md-toolbar-tools` to keep toolbar buttons at the top
+ * of the toolbar.
  *
- * @param {number=} md-keep-condensed Whether the header should stay at the specified ammount,
+ * @param {number=} md-keep-condensed Whether the header should stay at the specified amount,
+ * or scroll of the screen. This is only applicable to toolbars with the `md-scroll-fade` or
+ * `md-scroll-shrink` attributes. Default 64px.
+ *
+ * @param {number=} md-fade-stop Whether the header should stay at the specified amount,
  * or scroll of the screen. This is only applicable to toolbars with the `md-scroll-fade` or
  * `md-scroll-shrink` attributes. Default 64px.
  *
@@ -83,6 +133,23 @@ angular.module('material.components.toolbar', [
  * location and normal size as the content is scrolled down. Only applicable to a toolbar with
  * `md-scroll-fade` and an element within the toolbar with the attribute `md-toolbar-title`
  * Default 1.5.
+ *
+ * @param {number=} md-expanded-speed-factor Much like `md-shrink-speed-factor`,
+ * `md-expanded-speed-factor` specifies how much to change the speed of the toolbar's
+ * `md-scroll-fade` background by. For example, if 0.25 is given then the background will scroll up
+ * at one fourth the rate at which the user scrolls down. Set this lower than the
+ * `md-scroll-speed-factor` to create a parallax effect. Default 0.5.
+ *
+ * @param {number=} md-content-offset How many pixels to offset the content element.
+ * For example if you want the content to overlap the toolbar when expanded by 20px
+ * set `md-content-offset` to 20. Default 0
+ *
+ * @param {number=} md-content-speed-factor Much like `md-shrink-speed-factor`,
+ * `md-content-speed-factor` specifies how much to change the speed of the content
+ *  element by. For example, if
+ * `md-scroll-fade` background by. For example, if 0.25 is given then the background will scroll up
+ * at one fourth the rate at which the user scrolls down. Set this lower than the
+ * `md-scroll-speed-factor` to create a parallax effect. Default `=md-shrink-speed-factor`.
  */
 
 function mdToolbarDirective($$rAF, $mdConstant, $mdUtil, $mdTheming, $animate ) {
@@ -110,29 +177,52 @@ function mdToolbarDirective($$rAF, $mdConstant, $mdUtil, $mdTheming, $animate ) 
         var toolbarHeight;
         var toolbarMinHeight = 0;
         var MIN_ANIMATE_HEIGHT = 64;
+        var ANIMATE_AMOUNT = 0;
+        var SCROLL_AMOUNT = 0;
+        var fadeStop = parseInt(attr.mdFadeStop) || 0;
 
         var contentElement;
+        var contentOffset = parseInt(attr.mdContentOffset || 0);
+        var contentSpeedFactor = parseFloat(attr.mdContentSpeedFactor || shrinkSpeedFactor);
+
         var expandedElement;
+        var expandedSpeedFactor = parseFloat(attr.mdExpandedSpeedFactor || shrinkSpeedFactor);
+        var expandedElementKeep;
 
         var toolbarTools;
         var toolbarTitle;
-        var titleScaleFactor = attr.mdTitleScaleFactor || 1.5;
+        var titleScaleFactor = parseFloat(attr.mdTitleScaleFactor || 1.5);
         var toolbarFab;
 
         if (angular.isDefined(attr.mdScrollFade)) {
-          expandedElement = angular.element(element[0].querySelector('[md-toolbar-expanded]'));
+          expandedElement = angular.element(element[0].querySelector('[md-expanded]'));
           if (expandedElement[0]) {
-            expandedElement.css("opacity", 1);
-            expandedElement.addClass("fill-height");
+            expandedElement.css('opacity', 1);
+            expandedElement.addClass('fill-height');
+            //if the expanded element isn't set to no fade, add the fade attribute to it
+            if (expandedElement.attr('md-no-fade') === undefined){
+              expandedElement.attr('md-fade-out', true);
+            }
+            var keep = expandedElement.attr('md-expanded-keep');
+            if (keep){
+              expandedElementKeep = parseInt(keep || MIN_ANIMATE_HEIGHT);
+            }else{
+              expandedElementKeep = 0;
+            }
           }
           toolbarTitle = angular.element(element[0].querySelector('[md-toolbar-title]'));
-          toolbarTitle.css('transform-origin', '24px');
+          if(toolbarTitle){
+            toolbarTitle.css('transform-origin', '24px');
+          }
           toolbarTools = angular.element(element[0].querySelector('.md-toolbar-tools'));
           toolbarFab = angular.element(element[0].querySelector('[md-toolbar-fab]'));
         }
         if (angular.isDefined(attr.mdKeepCondensed)) {
-          toolbarMinHeight = parseInt(attr.mdKeepCondensed) || 64;
+          toolbarMinHeight = parseInt(attr.mdKeepCondensed) || MIN_ANIMATE_HEIGHT;
         }
+
+        var condensedEventEmitted = false;
+        var expandedEventEmitted = false;
 
         var debouncedContentScroll = $$rAF.throttle(onContentScroll);
         var debouncedUpdateHeight = $mdUtil.debounce(updateToolbarHeight, 5 * 1000);
@@ -164,13 +254,15 @@ function mdToolbarDirective($$rAF, $mdConstant, $mdUtil, $mdTheming, $animate ) 
 
         function updateToolbarHeight() {
           toolbarHeight = element.prop('offsetHeight');
+          ANIMATE_AMOUNT = toolbarHeight - MIN_ANIMATE_HEIGHT;
+          SCROLL_AMOUNT = ((toolbarHeight - toolbarMinHeight) / shrinkSpeedFactor);
           // Add a negative margin-top the size of the toolbar to the content el.
           // The content will start transformed down the toolbarHeight amount,
           // so everything looks normal.
           //
           // As the user scrolls down, the content will be transformed up slowly
           // to put the content underneath where the toolbar was.
-          var margin =  (-toolbarHeight * shrinkSpeedFactor) + 'px';
+          var margin =  -toolbarHeight + 'px';
           contentElement.css('margin-top', margin);
           contentElement.css('margin-bottom', margin);
 
@@ -186,31 +278,76 @@ function mdToolbarDirective($$rAF, $mdConstant, $mdUtil, $mdTheming, $animate ) 
             toolbarHeight / shrinkSpeedFactor,
             Math.max(0, y + scrollTop - prevScrollTop)
           );
-          var curRatio = 1 - y * shrinkSpeedFactor / (toolbarHeight - MIN_ANIMATE_HEIGHT);
 
 
-          if (y <= ((toolbarHeight - toolbarMinHeight) / shrinkSpeedFactor)) {
-            element.css( $mdConstant.CSS.TRANSFORM, translateY([-y * shrinkSpeedFactor]) );
-            contentElement.css( $mdConstant.CSS.TRANSFORM, translateY([(toolbarHeight - y) * shrinkSpeedFactor]) );
-            //If this is a scroll fade toolbar set the opacity on the expanded Element
-            // and do the transitions on the title, fab and tools
-            if (angular.isDefined(attr.mdScrollFade) && angular.isDefined(expandedElement)) {
-              expandedElement.css("opacity", curRatio);
-              //If we are scrolled more then the MIN_ANIMATE_HEIGHT (64) scroll the tools and title
-              if (y<=(toolbarHeight + MIN_ANIMATE_HEIGHT)){
-                toolbarTools.css( $mdConstant.CSS.TRANSFORM, translateY([y * shrinkSpeedFactor]) );
-                var curScale = (titleScaleFactor - 1) * curRatio + 1;
-                toolbarTitle.css(
-                  $mdConstant.CSS.TRANSFORM,
-                  'translate3d(0,' + (curRatio * (toolbarHeight - MIN_ANIMATE_HEIGHT)) + 'px,0) scale(' + curScale + ',' + curScale + ')'
-                );
-              }
-              if (y >= (toolbarHeight - MIN_ANIMATE_HEIGHT) * 1.2) {
-                toolbarFab.addClass("hide");
-                toolbarFab.removeClass("show");
+          if (y > SCROLL_AMOUNT) {
+            //Y is more then the max, set y to the max and broadcast that the toolbar is
+            // condensed if it has not been previously broadcasted
+            y = SCROLL_AMOUNT;
+            if (!condensedEventEmitted) {
+              scope.$broadcast('$mdToolbarCondensed', element);
+              condensedEventEmitted = true;
+              expandedEventEmitted  = false;
+            }
+          } else if (y !== SCROLL_AMOUNT){
+            //contentElement.css('padding-top', (y*(shrinkSpeedFactor-contentSpeedFactor+1)) + 'px');
+            if(!expandedEventEmitted){
+              scope.$broadcast('$mdToolbarExpanded', element);
+              expandedEventEmitted  = true;
+              condensedEventEmitted = false;
+            }
+          }
+          var scaledY = y * shrinkSpeedFactor;
+
+          element.css( $mdConstant.CSS.TRANSFORM, translateY([-scaledY]) );
+          if (scaledY <= (SCROLL_AMOUNT*shrinkSpeedFactor-contentOffset)){
+            contentElement.css( $mdConstant.CSS.TRANSFORM, translateY([toolbarHeight-contentOffset - scaledY ] ) );
+          }else{
+            contentElement.css( $mdConstant.CSS.TRANSFORM, translateY([toolbarHeight - (SCROLL_AMOUNT * shrinkSpeedFactor)] ) );
+          }
+          //If this is a scroll fade toolbar set the opacity on the expanded Element
+          // and do the transitions on the title, fab and tools
+          if (angular.isDefined(attr.mdScrollFade) || angular.isDefined(attr.mdScrollShrink)) {
+            var fadeOutElements = angular.element(element[0].querySelectorAll('[md-fade-in]:not([md-no-fade])'));
+            fadeOutElements.css('opacity', Math.max(Math.min((scaledY / (ANIMATE_AMOUNT-fadeStop)), 1), 0));
+            var fadeInElements = angular.element(element[0].querySelectorAll('[md-fade-out]:not([md-no-fade])'));
+            fadeInElements.css('opacity', Math.max(Math.min((1 - scaledY / (ANIMATE_AMOUNT-fadeStop)), 1), 0));
+
+            if (expandedElement) {
+              var expandedTransform = y * (shrinkSpeedFactor - expandedSpeedFactor);
+              expandedElement.css( $mdConstant.CSS.TRANSFORM, translateY([expandedTransform]) );
+            }
+
+            //If are scrolled less then the ANIMATE_AMOUNT then:
+            // adjust the tools,
+            // scale and adjust the position of the title,
+            var toolsTransform = toolbarHeight-MIN_ANIMATE_HEIGHT;
+            var titleTransform = 0;
+            var titleScale = 1;
+            if (scaledY <=ANIMATE_AMOUNT && toolbarTools){
+              toolsTransform = scaledY;
+              titleTransform = ANIMATE_AMOUNT * (1-scaledY/ANIMATE_AMOUNT);
+              titleScale = Math.max((titleScaleFactor - 1) * (1 - scaledY / ANIMATE_AMOUNT) + 1, 1);
+            }
+            if (toolbarTools){
+              toolbarTools.css( $mdConstant.CSS.TRANSFORM, translateY([toolsTransform]) );
+            }
+            if(toolbarTitle){
+              toolbarTitle.css(
+                $mdConstant.CSS.TRANSFORM,
+                'translate3d(0,' + titleTransform + 'px,0) ' +
+                'scale(' + titleScale + ',' + titleScale + ')'
+              );
+            }
+
+            //if the scroll is more then 95% of the ANIMATE_AMOUNT then hide the FAB
+            if (toolbarFab){
+              if (scaledY <= (ANIMATE_AMOUNT * .95)) {
+                toolbarFab.removeClass('hide');
+                toolbarFab.addClass('show');
               } else {
-                toolbarFab.removeClass("hide");
-                toolbarFab.addClass("show");
+                toolbarFab.addClass('hide');
+                toolbarFab.removeClass('show');
               }
             }
           }
@@ -236,5 +373,21 @@ function mdToolbarDirective($$rAF, $mdConstant, $mdUtil, $mdTheming, $animate ) 
 
 }
 mdToolbarDirective.$inject = ["$$rAF", "$mdConstant", "$mdUtil", "$mdTheming", "$animate"];
+
+var app = angular.module('toolbarDemo3', ['ngMaterial']);
+
+app.controller('AppCtrl', ["$scope", function($scope) {
+  var imagePath = 'img/list/60.jpeg';
+
+  $scope.todos = [];
+  for (var i = 0; i < 15; i++) {
+    $scope.todos.push({
+      face: imagePath,
+      what: "Brunch this weekend?",
+      who: "Min Li Chan",
+      notes: "I'll be in your neighborhood doing errands."
+    });
+  }
+}]);
 
 })(window, window.angular);

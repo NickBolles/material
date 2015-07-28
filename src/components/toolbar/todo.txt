@@ -1,0 +1,18 @@
+Important: fix cutting off the bottom of the content, or scrolling the toolbar off screen if overflow of the parent is set to scroll/auto
+Implement content-speed-factor (padding is way to jerky)
+    - maybe instead of translating the content we add padding to it originally then translate it to give it the effect
+        of scrolling at a certain speed compared to the toolbar
+fix picture display on desktop
+    -What should it be? there's no "good" way to display the full picture
+Implement expanded-keep
+Let fade-stop continue beyond the scroll amount of toolbar
+    - for example value of -50 would allow toolbar to fade for ANIMATE_AMOUNT + 50
+Make sure content is overlapping toolbar correctly
+    - toolbar goes behind content when expanded?
+        - what about a toolbar fab that overlaps the content and the toolbar, this wont generally be done but may be
+add a secondary tools element (for tabs search etc)
+
+Maybe flexible space should be an entirely different element that can be "beneath" the toolbar and the content and
+the toolbar and content can be transparent to show it or not. Then the flexible space can control how big it is,
+the content can change the padding depending on how much flexible space should show and the toolbar can still have the
+fade and shrink components.

@@ -2,7 +2,7 @@
  * Angular Material Design
  * https://github.com/angular/material
  * @license MIT
- * v0.10.1-rc1
+ * v0.10.1-rc4
  */
 /* mixin definition ; sets LTR and RTL within the same style call */
 md-toolbar {
@@ -39,14 +39,29 @@ md-toolbar {
   md-toolbar[md-scroll-fade] {
     min-height: 180px;
     max-height: 180px; }
-  md-toolbar [md-toolbar-expanded] {
+  md-toolbar [md-expanded-container] {
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    overflow: hidden; }
+  md-toolbar [md-expanded] {
     background-size: 100%;
     position: absolute;
     left: 0;
     right: 0;
     top: 0;
     bottom: 0;
-    z-index: 0; }
+    z-index: 0;
+    overflow: hidden; }
+    md-toolbar [md-expanded] .image {
+      position: relative;
+      width: 100%;
+      height: 0;
+      /* Simple trick to keep a 16:9 ratio on your background image (height=0;padding-bottom=56.25%) */
+      padding-bottom: 56.25%;
+      background-size: 160%;
+      /* You can override this value if your picture has a weird ratio */
+      background-position: 50% 50%; }
   md-toolbar [md-toolbar-fab] {
     position: absolute;
     right: 16px;
@@ -66,6 +81,9 @@ md-toolbar {
     padding: 0; }
     md-toolbar ~ md-content > md-list md-list-item:last-child md-divider {
       display: none; }
+  md-toolbar ~ md-content.md-offset {
+    background: transparent;
+    z-index: 3; }
 
 .md-toolbar-tools {
   font-size: 20px;

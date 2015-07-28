@@ -1,0 +1,122 @@
+<!doctype html>
+<html ng-app="menuBarDemoBasic">
+<head>
+    <title>demoBasicUsage</title>
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1" />
+
+    <script src="/node_modules/angular/angular.js"></script>
+    <script src="/node_modules/angular-animate/angular-animate.js"></script>
+    <script src="/node_modules/angular-aria/angular-aria.js"></script>
+    <script src="/node_modules/angular-messages/angular-messages.js"></script>
+    <script src="/dist/angular-material.js"></script>
+
+    <link rel="stylesheet" href="/dist/angular-material.css">
+
+    
+    <script src="script.js"></script>
+    
+    
+    <link rel="stylesheet" href="style.css">
+    
+</head>
+
+<body>
+<md-toolbar class="md-menu-toolbar" layout="row" ng-controller="DemoBasicCtrl as ctrl">
+  <md-toolbar-filler layout layout-align="center center">
+    <md-icon md-svg-icon="call:chat"></md-icon>
+  </md-toolbar-filler>
+  <div>
+    <h2 class="md-toolbar-tools">Untitled document</h2>
+    <md-menu-bar>
+      <md-menu>
+        <button ng-click="$mdOpenMenu()">
+          File
+        </button>
+        <md-menu-content>
+          <md-menu-item><md-button>Hello world</md-button></md-menu-item>
+        </md-menu-content>
+      </md-menu>
+      <md-menu>
+        <button ng-click="$mdOpenMenu()">
+          Edit
+        </button>
+        <md-menu-content>
+          <md-menu-item><md-button>Hello world</md-button></md-menu-item>
+        </md-menu-content>
+      </md-menu>
+      <md-menu>
+        <button ng-click="$mdOpenMenu()">
+          View
+        </button>
+        <md-menu-content>
+          <md-menu-item class="md-with-icon">
+            <md-icon ng-show="ctrl.settings.printLayout" md-svg-icon="check"></md-icon>
+            <md-button ng-click="ctrl.toggleSetting('printLayout')">Print layout</md-button>
+          </md-menu-item>
+          <md-menu-item class="md-with-icon">
+            <md-menu>
+              <md-button ng-click="$mdOpenMenu()">Mode</md-button>
+              <md-menu-content>
+                <md-menu-item class="md-with-icon">
+                  <md-icon ng-show="ctrl.settings.presentationMode" md-svg-icon="check"></md-icon>
+                  <md-button ng-click="ctrl.toggleSetting('presentationMode')">Presentation</md-button>
+                </md-menu-item>
+                <md-menu-item class="md-with-icon">
+                  <md-icon ng-show="ctrl.settings.editMode" md-svg-icon="check"></md-icon>
+                  <md-button ng-click="ctrl.toggleSetting('editMode')">Edit</md-button>
+                </md-menu-item>
+                <md-menu-item class="md-with-icon">
+                  <md-icon ng-show="ctrl.settings.modifiableMode" md-svg-icon="check"></md-icon>
+                  <md-button ng-click="ctrl.toggleSetting('modifiableMode')">Modifiable</md-button>
+                </md-menu-item>
+              </md-menu-content>
+            </md-menu>
+          </md-menu-item>
+          <md-menu-divider></md-menu-divider>
+          <md-menu-item class="md-with-icon">
+            <md-icon ng-show="ctrl.settings.showRuler" md-svg-icon="check"></md-icon>
+            <md-button ng-click="ctrl.toggleSetting('showRuler')">Show ruler</md-button>
+          </md-menu-item>
+          <md-menu-item class="md-with-icon">
+            <md-icon ng-show="ctrl.settings.showEquationToolbar" md-svg-icon="check"></md-icon>
+            <md-button ng-click="ctrl.toggleSetting('showEquationToolbar')">Show equation toolbar</md-button>
+          </md-menu-item>
+          <md-menu-item class="md-with-icon">
+            <md-icon ng-show="ctrl.settings.showSpellingSuggestions" md-svg-icon="check"></md-icon>
+            <md-button ng-click="ctrl.toggleSetting('showSpellingSuggestions')">Show spelling suggestions</md-button>
+          </md-menu-item>
+          <md-menu-divider></md-menu-divider>
+          <md-menu-item class="md-with-icon"><md-button>Compact controls</md-button></md-menu-item>
+          <md-menu-item class="md-with-icon"><md-button>Full screen</md-button></md-menu-item>
+        </md-menu-content>
+      </md-menu>
+      <md-menu>
+        <button ng-click="$mdOpenMenu()">
+          Format
+        </button>
+        <md-menu-content>
+          <md-menu-item><md-button>Hello world</md-button></md-menu-item>
+        </md-menu-content>
+      </md-menu>
+      <md-menu>
+        <button ng-click="$mdOpenMenu()">
+          Inset
+        </button>
+        <md-menu-content>
+          <md-menu-item><md-button>Hello world</md-button></md-menu-item>
+        </md-menu-content>
+      </md-menu>
+      <md-menu>
+        <button ng-click="$mdOpenMenu()">
+          Tools
+        </button>
+        <md-menu-content>
+          <md-menu-item><md-button>Hello world</md-button></md-menu-item>
+        </md-menu-content>
+      </md-menu>
+    </md-menu-bar>
+  </div>
+</md-toolbar>
+
+</body>
+</html>

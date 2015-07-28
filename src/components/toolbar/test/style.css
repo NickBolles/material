@@ -1,0 +1,26 @@
+[md-expanded]{
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  z-index: 0;
+}
+[md-scroll-fade] * {
+  z-index: 1;
+}
+[md-toolbar-fab] {
+  position:absolute;
+  right: 16px;
+  bottom:-32px;
+  z-index: 20;
+}
+
+[md-toolbar-fab].hide {
+  transform:scale(0,0);
+  transition: transform .1s ease-out;
+}
+[md-toolbar-fab].show {
+  transform:scale(1,1);
+  transition: transform .1s ease-out;
+}
