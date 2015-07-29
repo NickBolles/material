@@ -2025,7 +2025,8 @@ angular.module('material.core')
  */
 
 function InterimElementProvider() {
-  createInterimElementProvider.$get = InterimElementFactory;
+  createInterimElementProvider.$get = InterimElementFactory;
+
   InterimElementFactory.$inject = ["$document", "$q", "$rootScope", "$timeout", "$rootElement", "$animate", "$interpolate", "$mdCompiler", "$mdTheming", "$log"];
   return createInterimElementProvider;
 
@@ -2056,7 +2057,8 @@ function InterimElementProvider() {
       methods: ['controller', 'controllerAs', 'resolve',
         'template', 'templateUrl', 'themable', 'transformTemplate', 'parent']
     });
-
+
+
     factory.$inject = ["$$interimElement", "$injector"];
     return provider;
 
@@ -3801,7 +3803,8 @@ function ThemingProvider($mdColorPalette) {
   angular.extend(PALETTES, $mdColorPalette);
 
   // Default theme defined in core.js
-
+
+
   ThemingService.$inject = ["$rootScope", "$log"];
   return themingProvider = {
     definePalette: definePalette,
@@ -4515,7 +4518,8 @@ function MdBottomSheetProvider($$interimElementProvider) {
   // how fast we need to flick down to close the sheet, pixels/ms
   var CLOSING_VELOCITY = 0.5;
   var PADDING = 80; // same as css
-
+
+
   bottomSheetDefaults.$inject = ["$animate", "$mdConstant", "$mdUtil", "$mdTheming", "$mdBottomSheet", "$rootElement", "$mdGesture"];
   return $$interimElementProvider('$mdBottomSheet')
     .setDefaults({
@@ -5509,7 +5513,8 @@ MdDialogDirective.$inject = ["$$rAF", "$mdTheming"];
  */
 
 function MdDialogProvider($$interimElementProvider) {
-
+
+
   advancedDialogOptions.$inject = ["$mdDialog", "$mdTheming"];
   dialogDefaultOptions.$inject = ["$mdDialog", "$mdAria", "$mdUtil", "$mdConstant", "$animate", "$document", "$window", "$rootElement"];
   return $$interimElementProvider('$mdDialog')
@@ -6073,7 +6078,8 @@ MdDividerDirective.$inject = ["$mdTheming"];
    * relative to the trigger element.
    * @param {expression=} md-open Programmatically control whether or not the speed-dial is visible.
    */
-  function MdFabSpeedDialDirective() {
+  function MdFabSpeedDialDirective() {
+
     FabSpeedDialController.$inject = ["$scope", "$element", "$animate", "$mdUtil"];
     return {
       restrict: 'E',
@@ -6328,7 +6334,8 @@ MdDividerDirective.$inject = ["$mdTheming"];
    *
    * @param {expression=} md-open Programmatically control whether or not the toolbar is visible.
    */
-  function MdFabToolbarDirective() {
+  function MdFabToolbarDirective() {
+
     FabToolbarController.$inject = ["$scope", "$element", "$animate"];
     return {
       restrict: 'E',
@@ -8170,7 +8177,8 @@ angular.module('material.components.input', [
  *
  * </hljs>
  */
-function mdInputContainerDirective($mdTheming, $parse) {
+function mdInputContainerDirective($mdTheming, $parse) {
+
   ContainerCtrl.$inject = ["$scope", "$element", "$attrs"];
   return {
     restrict: 'E',
@@ -9719,7 +9727,8 @@ function SelectDirective($mdSelect, $mdUtil, $mdTheming, $mdAria, $interpolate, 
 SelectDirective.$inject = ["$mdSelect", "$mdUtil", "$mdTheming", "$mdAria", "$interpolate", "$compile", "$parse"];
 
 function SelectMenuDirective($parse, $mdUtil, $mdTheming) {
-
+
+
   SelectMenuController.$inject = ["$scope", "$attrs", "$element"];
   return {
     restrict: 'E',
@@ -9964,7 +9973,8 @@ function SelectMenuDirective($parse, $mdUtil, $mdTheming) {
 SelectMenuDirective.$inject = ["$parse", "$mdUtil", "$mdTheming"];
 
 function OptionDirective($mdButtonInkRipple, $mdUtil) {
-
+
+
   OptionController.$inject = ["$element"];
   return {
     restrict: 'E',
@@ -10083,7 +10093,8 @@ function OptgroupDirective() {
   }
 }
 
-function SelectProvider($$interimElementProvider) {
+function SelectProvider($$interimElementProvider) {
+
   selectDefaultOptions.$inject = ["$mdSelect", "$mdConstant", "$$rAF", "$mdUtil", "$mdTheming", "$window", "$q", "$compile"];
   return $$interimElementProvider('$mdSelect')
     .setDefaults({
@@ -11748,7 +11759,8 @@ angular.module('material.components.swipe', ['material.core'])
 function getDirective(name) {
   var directiveName = 'md' + name;
   var eventName = '$md.' + name.toLowerCase();
-
+
+
     DirectiveFactory.$inject = ["$parse"];
   return DirectiveFactory;
 
@@ -12181,7 +12193,8 @@ function MdToastProvider($$interimElementProvider) {
     .addMethod('updateContent', function(newContent) {
       activeToastContent = newContent;
     });
-
+
+
   toastDefaultOptions.$inject = ["$animate", "$mdToast", "$mdUtil"];
     return $mdToast;
 
@@ -12466,7 +12479,7 @@ function mdToolbarDirective($$rAF, $mdConstant, $mdUtil, $mdTheming, $animate ) 
               contentElement.off('scroll', debouncedContentScroll);
             }
 
-            newContentEl.on('scroll', debouncedContentScroll);
+            newContentEl.on('scroll', onContentScroll);
             if (angular.isDefined(attr.mdScrollFade)) {
               newContentEl.attr('scroll-fade-content', 'true');
             } else {
