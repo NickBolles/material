@@ -12479,7 +12479,7 @@ function mdToolbarDirective($$rAF, $mdConstant, $mdUtil, $mdTheming, $animate ) 
               contentElement.off('scroll', debouncedContentScroll);
             }
 
-            newContentEl.on('scroll', onContentScroll);
+            newContentEl.on('scroll', debouncedContentScroll);
             if (angular.isDefined(attr.mdScrollFade)) {
               newContentEl.attr('scroll-fade-content', 'true');
             } else {
